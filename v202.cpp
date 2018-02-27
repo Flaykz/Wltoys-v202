@@ -21,9 +21,9 @@ static uint8_t freq_test[8];
 
 v202::v202()
 {
-  mTxid[0]=0;
-  mTxid[1]=0;
-  mTxid[2]=0;
+  mTxid[0] = 0;
+  mTxid[1] = 0;
+  mTxid[2] = 0;
   mTimeout = 9999;
   mErrorTimeoutCode = NO_ERROR;
   
@@ -52,6 +52,7 @@ void v202::init(nRF24 *wireless, uint8_t mode)
   if (mMode == RX)
     mWireless->rxMode(freq_test[0]);
   else
+    packet_sent = false;
     mWireless->txMode(freq_test[0]);
     mRfChNum = 0;
   mLastSignalTime = millis();
@@ -59,54 +60,50 @@ void v202::init(nRF24 *wireless, uint8_t mode)
 
 void v202::command(uint8_t throttle, int8_t yaw, int8_t pitch, int8_t roll, uint8_t flags)
 {
-  uint8_t buf[16];
   if (flags == 0xc0) {
     // binding
-    buf[0] = 0x00;
-    buf[1] = 0x00;
-    buf[2] = 0x00;
-    buf[3] = 0x00;
-    buf[4] = 0x00;
-    buf[5] = 0x00;
-    buf[6] = 0x00;
+    mFrame[0] = 0;
+    mFrame[1] = 0;
+    mFrame[2] = 0;
+    mFrame[3] = 0;
+    mFrame[4] = 0;
+    mFrame[5] = 0;
+    mFrame[6] = 0;
   } else {
     // regular packet
-    buf[0] = throttle;
-    buf[1] = (uint8_t) yaw;
-    buf[2] = (uint8_t) pitch;
-    buf[3] = (uint8_t) roll;
+    mFrame[0] = throttle;    // T
+    mFrame[1] = yaw;         // A
+    mFrame[2] = pitch;       // E
+    mFrame[3] = roll;        // R
     // Trims, middle is 0x40
-    buf[4] = 0x40; // yaw
-    buf[5] = 0x40; // pitch
-    buf[6] = 0x40; // roll
+    mFrame[4] = 0x40; // yaw
+    mFrame[5] = 0x40; // pitch
+    mFrame[6] = 0x40; // roll
   }
   // TX id
-  buf[7] = txid[0];
-  buf[8] = txid[1];
-  buf[9] = txid[2];
+  mFrame[7] = mTxid[0];
+  mFrame[8] = mTxid[1];
+  mFrame[9] = mTxid[2];
   // empty
-  buf[10] = 0x00;
-  buf[11] = 0x00;
-  buf[12] = 0x00;
-  buf[13] = 0x00;
+  //buf[10] = 0x00;
+  mFrame[10] = flags >> 8;
+  mFrame[11] = 0x00; // cam up cam down ?
+  mFrame[12] = 0x00; // ?
+  mFrame[13] = 0x00; // ?
   //
-  buf[14] = flags;
-  uint8_t sum = 0;
-  uint8_t i;
-  for (i = 0; i < 15;  ++i) sum += buf[i];
-  buf[15] = getCRC(buf);
-  if (packet_sent) {
-    bool report_done = false;
-    while (!(mWireless.read_register(STATUS) & _BV(TX_DS))) ;
-    mWireless.write_register(STATUS, _BV(TX_DS));
-  }
-  packet_sent = true;
+  //buf[14] = flags;
+  mFrame[14] = flags & 0xff;
+  mFrame[15] = getCRC();
+  
+  packet_sent = false;
   uint8_t rf_ch = mRfChannels[mRfChNum >> 1];
-  mRfChNum++; if (mRfChNum >= 32) mRfChNum = 0;
-  mWireless.write_register(RF_CH, rf_ch);
-  mWireless.flush_tx();
-  mWireless.write_payload(buf, 16);
-  delayMicroseconds(15);
+  //mRfChNum++; if (mRfChNum >= 32) mRfChNum = 0;
+  mRfChNum = (mRfChNum + 1) & 0x1F;
+  mWireless.writeRegister(RF_CH, rf_ch);
+  mWireless.flushTx();
+  mWireless.writePayload(mFrame, sizeof(mFrame));
+  packet_sent = true;
+  //delayMicroseconds(15);
 }
 
 void v202::setTXId(uint8_t txid[3])
@@ -135,14 +132,14 @@ void v202::retrieveFrequency()
 
 bool v202::checkCRC()
 {  
-  return (getCRC(mFrame) == mFrame[15]);
+  return (getCRC() == mFrame[15]);
 }
 
-uint8_t v202::getCRC(uint8_t buf[16])
+uint8_t v202::getCRC(])
 {  
   uint8_t sum = 0;
   for (uint8_t i = 0; i < 15; ++i)
-    sum+= buf[i];
+    sum+= mFrame[i];
   return sum;
 }
 

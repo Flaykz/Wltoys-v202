@@ -121,7 +121,7 @@ public :
   inline void resetRxFlag(){writeRegister(STATUS, _BV(RX_DR));}
   inline bool rxEmpty(){return (readRegister(FIFO_STATUS) & _BV(RX_EMPTY));} 
   uint8_t readPayload(void* buf, uint8_t len);
-  uint8_t write_payload(const void* buf, uint8_t len);
+  uint8_t writePayload(const void* buf, uint8_t len);
   uint8_t rxMode(uint8_t initialFreq);
   uint8_t txMode(uint8_t initialFreq);
   uint8_t flushRx();

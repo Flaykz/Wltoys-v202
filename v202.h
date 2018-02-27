@@ -54,7 +54,7 @@ public:
 protected:
   void retrieveFrequency();
   bool checkCRC();
-  uint8_t getCRC(uint8_t buf[16]);
+  uint8_t getCRC();
   inline bool checkTXaddr() { return ( mTxid[0] == mFrame[7] && mTxid[1] == mFrame[8] && mTxid[2] == mFrame[9]);}
 
   nRF24 *mWireless;
