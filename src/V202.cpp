@@ -1,4 +1,4 @@
-#include "v202.h"
+#include "V202.h"
 
 const uint16_t NORMAL_TIMEOUT = 11;
 const uint8_t ERROR_JUMP_FREQ = 1;
@@ -19,7 +19,7 @@ static uint8_t freq_hopping[][16] = {
 
 static uint8_t freq_test[8];
 
-v202::v202()
+V202::V202()
 {
   mTxid[0] = 0;
   mTxid[1] = 0;
@@ -38,12 +38,12 @@ v202::v202()
   mRfChNum = 0;
 }
 
-v202::~v202()
+V202::~V202()
 {
   /*EMPTY*/
 }
 
-void v202::init(nRF24 *wireless, uint8_t mode)
+void V202::init(nRF24 *wireless, uint8_t mode)
 {
   mMode = mode;
   mWireless = wireless;
@@ -61,7 +61,7 @@ void v202::init(nRF24 *wireless, uint8_t mode)
   mLastSignalTime = millis();
 }
 
-void v202::command(uint8_t throttle, int8_t yaw, int8_t pitch, int8_t roll, uint8_t flags)
+void V202::command(uint8_t throttle, int8_t yaw, int8_t pitch, int8_t roll, uint8_t flags)
 {
   if (flags == 0xc0) {
     // binding
@@ -109,7 +109,7 @@ void v202::command(uint8_t throttle, int8_t yaw, int8_t pitch, int8_t roll, uint
   //delayMicroseconds(15);
 }
 
-void v202::setTXId(uint8_t txid[3])
+void V202::setTXId(uint8_t txid[3])
 {
 
   mTxid[0] = txid[0];
@@ -118,7 +118,7 @@ void v202::setTXId(uint8_t txid[3])
   retrieveFrequency();
 }
 
-void v202::retrieveFrequency()
+void V202::retrieveFrequency()
 {
   uint8_t sum;
   sum = mTxid[0] + mTxid[1] + mTxid[2];
@@ -133,12 +133,12 @@ void v202::retrieveFrequency()
   }
 }
 
-bool v202::checkCRC()
+bool V202::checkCRC()
 {  
   return (getCRC() == mFrame[15]);
 }
 
-uint8_t v202::getCRC()
+uint8_t V202::getCRC()
 {  
   uint8_t sum = 0;
   for (uint8_t i = 0; i < 15; ++i)
@@ -147,7 +147,7 @@ uint8_t v202::getCRC()
 }
 
 // loop function, can be factorized (for later)
-uint8_t v202::run( rx_values_t *rx_value )
+uint8_t V202::run( rx_values_t *rx_value )
 {
   uint8_t returnValue = UNKNOWN;
   switch(mState)

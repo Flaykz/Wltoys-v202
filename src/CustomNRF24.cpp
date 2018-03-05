@@ -1,19 +1,16 @@
-#include "nRF24.h"
+#include "CustomNRF24.h"
 
-//#include <SPI.h>
-//#include "nRF24L01.h"
-
-nRF24::nRF24()
+CustomNRF24::CustomNRF24()
 {
   /* EMPTY */
 }
 
-nRF24::~nRF24()
+CustomNRF24::~CustomNRF24()
 {
   /* EMPTY */
 }
 
-void nRF24::setPins(uint8_t cePin, uint8_t csPin)
+void CustomNRF24::setPins(uint8_t cePin, uint8_t csPin)
 {
   mCePin = cePin;
   mCsPin = csPin;
@@ -23,7 +20,7 @@ void nRF24::setPins(uint8_t cePin, uint8_t csPin)
   setCsHigh();
 }
 
-void nRF24::init(uint8_t payloadSize)
+void CustomNRF24::init(uint8_t payloadSize)
 {
   // Initialize SPI
   SPI.begin();
@@ -33,7 +30,7 @@ void nRF24::init(uint8_t payloadSize)
   SPI.setClockDivider(SPI_CLOCK_DIV2);
 }
 
-uint8_t nRF24::rxMode(uint8_t initialFreq)
+uint8_t CustomNRF24::rxMode(uint8_t initialFreq)
 {
   setCeLow();
   writeRegister(CONFIG, _BV(EN_CRC) | _BV(CRCO));	// Enable CRC (2bytes)
@@ -61,7 +58,7 @@ uint8_t nRF24::rxMode(uint8_t initialFreq)
   delayMicroseconds(100);
 }
 
-uint8_t nRF24::txMode(uint8_t initialFreq)
+uint8_t CustomNRF24::txMode(uint8_t initialFreq)
 {
   setCeLow();
   writeRegister(CONFIG, _BV(EN_CRC) | _BV(CRCO));	// Enable CRC (2bytes)
@@ -114,7 +111,7 @@ uint8_t nRF24::txMode(uint8_t initialFreq)
     writeRegister(0x04, (const uint8_t *) "\xC7\x96\x9A\x1B", 4);
     writeRegister(0x04, (const uint8_t *) "\xC1\x96\x9A\x1B", 4);
   } else {
-    Serial.write("nRF24L01 detected\n");
+    Serial.write("nrf24L01 detected\n");
   }
   activate(0x53); // switch bank back
   delay(50);
@@ -126,7 +123,7 @@ uint8_t nRF24::txMode(uint8_t initialFreq)
   delayMicroseconds(100);
 }
 
-uint8_t nRF24::readRegister(uint8_t reg, uint8_t* buf, uint8_t len)
+uint8_t CustomNRF24::readRegister(uint8_t reg, uint8_t* buf, uint8_t len)
 {
   setCsLow();
   uint8_t result = SPI.transfer( R_REGISTER | ( REGISTER_MASK & reg ) );
@@ -137,7 +134,7 @@ uint8_t nRF24::readRegister(uint8_t reg, uint8_t* buf, uint8_t len)
   return result;
 }
 
-uint8_t nRF24::readRegister(uint8_t reg)
+uint8_t CustomNRF24::readRegister(uint8_t reg)
 {
   setCsLow();
   SPI.transfer( R_REGISTER | ( REGISTER_MASK & reg ) );
@@ -147,7 +144,7 @@ uint8_t nRF24::readRegister(uint8_t reg)
   return result;
 }
 
-uint8_t nRF24::writeRegister(uint8_t reg, const uint8_t* buf, uint8_t len)
+uint8_t CustomNRF24::writeRegister(uint8_t reg, const uint8_t* buf, uint8_t len)
 {
   setCsLow();
   uint8_t result = SPI.transfer( W_REGISTER | ( REGISTER_MASK & reg ) );
@@ -158,7 +155,7 @@ uint8_t nRF24::writeRegister(uint8_t reg, const uint8_t* buf, uint8_t len)
   return result;
 }
 
-uint8_t nRF24::writeRegister(uint8_t reg, uint8_t value)
+uint8_t CustomNRF24::writeRegister(uint8_t reg, uint8_t value)
 {
   setCsLow();
   uint8_t result = SPI.transfer( W_REGISTER | ( REGISTER_MASK & reg ) );
@@ -168,7 +165,7 @@ uint8_t nRF24::writeRegister(uint8_t reg, uint8_t value)
   return result;
 }
 
-uint8_t nRF24::writePayload(const void* buf, uint8_t len)
+uint8_t CustomNRF24::writePayload(const void* buf, uint8_t len)
 {
   uint8_t result;
 
@@ -189,7 +186,7 @@ uint8_t nRF24::writePayload(const void* buf, uint8_t len)
   return result;
 }
 
-uint8_t nRF24::readPayload(void* buf, uint8_t len)
+uint8_t CustomNRF24::readPayload(void* buf, uint8_t len)
 {
   uint8_t result;
   uint8_t* current = reinterpret_cast<uint8_t*>(buf);
@@ -209,7 +206,7 @@ uint8_t nRF24::readPayload(void* buf, uint8_t len)
   return result;
 }
 
-uint8_t nRF24::flushTx(void)
+uint8_t CustomNRF24::flushTx(void)
 {
   setCsLow();
   uint8_t result = SPI.transfer( FLUSH_TX );
@@ -218,7 +215,7 @@ uint8_t nRF24::flushTx(void)
   return result;
 }
 
-uint8_t nRF24::flushRx(void)
+uint8_t CustomNRF24::flushRx(void)
 {
   setCsLow();
   uint8_t result = SPI.transfer( FLUSH_RX );
@@ -227,7 +224,7 @@ uint8_t nRF24::flushRx(void)
   return result;
 }
 
-void nRF24::activate(uint8_t code)
+void CustomNRF24::activate(uint8_t code)
 {
   setCsLow();
   SPI.transfer(ACTIVATE);

@@ -2,7 +2,7 @@
 #define V202_H_
 
 #include "Arduino.h"
-#include "nRF24.h"
+#include "CustomNRF24.h"
 
 typedef struct __attribute__((__packed__)) {
   int8_t throttle;
