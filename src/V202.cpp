@@ -43,7 +43,7 @@ V202::~V202()
   /*EMPTY*/
 }
 
-void V202::init(nRF24 *wireless, uint8_t mode)
+void V202::init(CustomNRF24 *wireless, uint8_t mode)
 {
   mMode = mode;
   mWireless = wireless;

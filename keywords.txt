@@ -6,8 +6,8 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-nRF24	KEYWORD1	nRF24
-v202	KEYWORD1	v202
+CustomNRF24	KEYWORD1	CustomNRF24
+V202	    KEYWORD1	V202
 
 #######################################
 # Methods and Functions (KEYWORD2)

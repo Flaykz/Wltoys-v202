@@ -38,13 +38,13 @@ enum rxReturn
   UNKNOWN                 // ???, not used for moment
 };
 
-class v202
+class V202
 {
 public:
-  v202();
-  ~v202();
+  V202();
+  ~V202();
 
-  void init(nRF24 *wireless, uint8_t mode);
+  void init(CustomNRF24 *wireless, uint8_t mode);
   uint8_t run(rx_values_t *rx_value );
   void setTXId(uint8_t txid[3]);
   void command(uint8_t throttle, int8_t yaw, int8_t pitch, int8_t roll, uint8_t flags);
@@ -55,7 +55,7 @@ protected:
   uint8_t getCRC();
   inline bool checkTXaddr() { return ( mTxid[0] == mFrame[7] && mTxid[1] == mFrame[8] && mTxid[2] == mFrame[9]);}
 
-  nRF24 *mWireless;
+  CustomNRF24 *mWireless;
   uint8_t mTxid[3];
   uint8_t mRfChannels[16];
   uint8_t mRfChNum;
