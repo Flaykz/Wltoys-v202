@@ -1,5 +1,5 @@
 # Wltoys-v202
-==========
+--------------------
 
 Goal
 --------------------
@@ -10,9 +10,9 @@ This arduino library can thanks to a nrf24L01 chip :
  * create and send v202 frames from transmitter to the original Wltoys receiver.
 
 I want to thank execuc, Rivig and deviationTX community for sharing their code :
-https://github.com/execuc/v202-receiver
-https://bitbucket.org/rivig/v202/src
-https://github.com/DeviationTX/deviation/blob/master/src/protocol/v202_nrf24l01.c
+* https://github.com/execuc/v202-receiver
+* https://bitbucket.org/rivig/v202/src
+* https://github.com/DeviationTX/deviation/blob/master/src/protocol/v202_nrf24l01.c
 
 This code has not been tested enough and it is not reliable. So don't use it with dangerous rc model as planes, helicopters, cars...
 
