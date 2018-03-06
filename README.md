@@ -3,8 +3,8 @@
 Send or receive wltoys v202 paquets with NRF24L01 chip.
 
 This arduino library can thanks to a nrf24L01 chip :
-1. Receive and decodes frames from the v202/v222/v262/v282... transmitter.
-1. Create and send v202 frames from transmitter to the original Wltoys receiver.
+* Receive and decodes frames from the v202/v222/v262/v282... transmitter.
+* Create and send v202 frames from transmitter to the original Wltoys receiver.
 
 I want to thank execuc, Rivig and deviationTX community for sharing their code :
 * https://github.com/execuc/v202-receiver
@@ -14,7 +14,7 @@ I want to thank execuc, Rivig and deviationTX community for sharing their code :
 This code has not been tested enough and it is not reliable. So don't use it with dangerous rc model as planes, helicopters, cars...
 
 ## Hardware
-You juste need an arduino uno/pro mini/nano and a nrf24l01+ chip. Connect SCK, MISO, MOSI on pins D13, D12 and D11. Then connect CE and CS on digital pins you have chosen in the code (see the `wireless.setPins()` method below). Finally connect nrf24l01 VCC and GND to arduino 3.3V and GND pins.
+You juste need an arduino uno/pro mini/nano and a nrf24l01+ chip.  Connect SCK, MISO, MOSI on pins D13, D12 and D11.   Then connect CE and CS on digital pins you have chosen in the code (see the `wireless.setPins()` method below).  Finally connect nrf24l01 VCC and GND to arduino 3.3V and GND pins.
 
 ## Use
 There are two classes : 
@@ -23,8 +23,10 @@ There are two classes :
  * V202 :           handle the v2xx protocol
 	
 You need to initilize these class like that :
-    CustomNRF24 nrfChip;
-    V202        protocolV202;
+```
+CustomNRF24 nrfChip;
+V202        protocolV202;
+```
 
 The nrf24l01 pins must be defined in arduino setup function. `setPins` method arguments define the nrf24L01 CE (chip enable) and CS (SPI chip select) pins in this order. In my example, I did not use SS arduino pin as CS but D7 but SS pin must be set to output to activate the SPI mode to master.
 
