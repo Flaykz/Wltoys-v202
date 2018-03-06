@@ -25,7 +25,6 @@ There are two classes :
 You need to initilize these class like that :
 
 
-    protocolV02.init();
     CustomNRF24 nrfChip;
     V202 protocolV202;
 
