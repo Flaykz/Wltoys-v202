@@ -23,10 +23,11 @@ There are two classes :
  * V202 :           handle the v2xx protocol
 	
 You need to initilize these class like that :
-```
-CustomNRF24 nrfChip;
-V202        protocolV202;
-```
+
+
+    protocolV02.init();
+    CustomNRF24 nrfChip;
+    V202 protocolV202;
 
 The nrf24l01 pins must be defined in arduino setup function. `setPins` method arguments define the nrf24L01 CE (chip enable) and CS (SPI chip select) pins in this order. In my example, I did not use SS arduino pin as CS but D7 but SS pin must be set to output to activate the SPI mode to master.
 
