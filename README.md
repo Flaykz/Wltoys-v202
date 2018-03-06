@@ -3,8 +3,8 @@
 Send or receive wltoys v202 paquets with NRF24L01 chip.
 
 This arduino library can thanks to a nrf24L01 chip :
-1 Receive and decodes frames from the v202/v222/v262/v282... transmitter.
-1 Create and send v202 frames from transmitter to the original Wltoys receiver.
+1. Receive and decodes frames from the v202/v222/v262/v282... transmitter.
+1. Create and send v202 frames from transmitter to the original Wltoys receiver.
 
 I want to thank execuc, Rivig and deviationTX community for sharing their code :
 * https://github.com/execuc/v202-receiver
