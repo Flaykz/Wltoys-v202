@@ -1,13 +1,10 @@
 # Wltoys-v202
---------------------
-
-Goal
---------------------
+## Goal
 Send or receive wltoys v202 paquets with NRF24L01 chip.
 
 This arduino library can thanks to a nrf24L01 chip :
- * receive and decodes frames from the v202/v222/v262/v282... transmitter.
- * create and send v202 frames from transmitter to the original Wltoys receiver.
+1 Receive and decodes frames from the v202/v222/v262/v282... transmitter.
+1 Create and send v202 frames from transmitter to the original Wltoys receiver.
 
 I want to thank execuc, Rivig and deviationTX community for sharing their code :
 * https://github.com/execuc/v202-receiver
@@ -16,14 +13,10 @@ I want to thank execuc, Rivig and deviationTX community for sharing their code :
 
 This code has not been tested enough and it is not reliable. So don't use it with dangerous rc model as planes, helicopters, cars...
 
-Hardware
---------------------
-
+## Hardware
 You juste need an arduino uno/pro mini/nano and a nrf24l01+ chip. Connect SCK, MISO, MOSI on pins D13, D12 and D11. Then connect CE and CS on digital pins you have chosen in the code (see the `wireless.setPins()` method below). Finally connect nrf24l01 VCC and GND to arduino 3.3V and GND pins.
 
-Use
---------------------
-
+## Use
 There are two classes : 
 
  * CustomNRF24 :    handle the spi protocol to communicate with the nrf24l01p chip (rx and tx)
@@ -80,14 +73,11 @@ When a frame is received (`BOUND_NEW_VALUES`), `rx_values_t` structure can be re
 
 Four axis, 3 trims values and flags are available. Last value depends on buttons pushed on the transmitter.
 	
-Improvements 
---------------------
-	
- There are many improvements to do :
- 
-  * Make more reliable code, first.
-  * Handle signal lost : return to initial state for example.
-  * Make a better state machine for this protocol with a re-factor of the code and a smaller footprint.
-  * Reduce execution time. State machine takes 120us when a frame arrived and 32ms when there are nothing to do.
-  * Implement this protocol in the multiwii project, if it useful.
-  * Configure AETR or TAER order.
+## Improvements 
+There are many improvements to do :
+- [ ] Make more reliable code, first.
+- [ ] Handle signal lost : return to initial state for example.
+- [ ] Make a better state machine for this protocol with a re-factor of the code and a smaller footprint.
+- [ ] Reduce execution time. State machine takes 120us when a frame arrived and 32ms when there are nothing to do.
+- [ ] Implement this protocol in the multiwii project, if it useful.
+- [ ] Configure AETR or TAER order.
